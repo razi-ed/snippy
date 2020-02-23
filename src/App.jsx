@@ -70,6 +70,21 @@ class App extends React.Component {
     this._textareaRef = ref;
   }
 
+  _copyToClipboard = ( text ) => {
+    if ( !navigator.clipboard ) {
+      const textArea = document.createElement( "textarea" );
+      textArea.value = text;
+      document.body.appendChild( textArea );
+      textArea.focus();
+      textArea.select();
+
+      const successful = document.execCommand( 'copy' );
+      document.body.removeChild( textArea );
+      return successful;
+    }
+    return navigator.clipboard.writeText( text );
+  }
+
   render() {
     return (
       <div className="container">
@@ -90,6 +105,7 @@ class App extends React.Component {
               description={ this.state.description }
               snippet={ this.state.snippet }
               tabTrigger={ this.state.tabTrigger }
+              copyToClipboard={ this._copyToClipboard }
               />
           </div>
         </div>

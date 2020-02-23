@@ -7,6 +7,10 @@ export default class Code extends Component {
     prop: PropTypes
   }
 
+  state={
+    showMessage: false
+  }
+
   _getCode = ( mode, snippet, tabtrigger, description ) => {
     
     switch (mode) {
@@ -90,6 +94,22 @@ export default class Code extends Component {
           <pre className="code-container fill_container">
             { this._getCode( this.props.mode, this.props.snippet, this.props.tabTrigger, this.props.description ) }
           </pre>
+        </div>
+        <div className="row-rev-flex">
+          <button
+            className="fixed-height fixed-width"
+            onClick={ () => {
+              this.props.copyToClipboard(
+                this._getCode( this.props.mode, this.props.snippet, this.props.tabTrigger, this.props.description )
+              )
+             }
+            }
+            >
+            Copy
+          </button>
+          {
+
+          }
         </div>
       </div>
     )
