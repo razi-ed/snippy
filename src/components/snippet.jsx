@@ -17,6 +17,7 @@ export default class Snippet extends Component {
       <div className="column-flex">
         <div className="row-flex section-part content-spacebetween">
           <input
+            style={ { marginRight: '0.2rem' } }
             type="text"
             className="fixed-height section-half"
             name="description"

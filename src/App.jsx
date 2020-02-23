@@ -88,7 +88,7 @@ class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <h3 className="btm-padding">
+        <h3 className="btm-padding" style={ { color: '#7a7a7a' } }>
           Snippet Generator
         </h3>
         <div className="row-flex">

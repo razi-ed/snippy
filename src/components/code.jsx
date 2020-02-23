@@ -72,19 +72,19 @@ export default class Code extends Component {
         <div className="row-flex"
           >
           <button
-            className={ `fixed-height fixed-width ${ this.props.mode === "vscode" ? "" : "" }` }
+            className={ `action ${ this.props.mode === "vscode" ? "action-active" : "" }` }
             onClick={() => this.props.updateMode("vscode")}
           >
             VSCode
           </button>
           <button
-            className={ `fixed-height fixed-width ${ this.props.mode === "sublimetext" ? "" : "" }` }
+            className={ `action ${ this.props.mode === "sublimetext" ? "action-active" : "" }` }
             onClick={() => this.props.updateMode("sublimetext")}
           >
             Sublime Text
           </button>
           <button
-            className={ `fixed-height fixed-width ${ this.props.mode === "atom" ? "" : "" }` }
+            className={ `action ${ this.props.mode === "atom" ? "action-active" : "" }` }
             onClick={() => this.props.updateMode("atom")}
           >
             Atom
@@ -94,22 +94,19 @@ export default class Code extends Component {
           <pre className="code-container fill_container">
             { this._getCode( this.props.mode, this.props.snippet, this.props.tabTrigger, this.props.description ) }
           </pre>
-        </div>
-        <div className="row-rev-flex">
-          <button
-            className="fixed-height fixed-width"
-            onClick={ () => {
-              this.props.copyToClipboard(
-                this._getCode( this.props.mode, this.props.snippet, this.props.tabTrigger, this.props.description )
-              )
-             }
-            }
-            >
-            Copy
-          </button>
-          {
-
-          }
+          <div className="row-rev-flex fix-action">
+            <button
+              className="action"
+              onClick={ () => {
+                this.props.copyToClipboard(
+                  this._getCode( this.props.mode, this.props.snippet, this.props.tabTrigger, this.props.description )
+                )
+              }
+              }
+              >
+              Copy
+            </button>
+          </div>
         </div>
       </div>
     )
