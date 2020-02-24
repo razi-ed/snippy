@@ -53,7 +53,6 @@ export default class Snippet extends PureComponent {
             className="section-major fill_container"
             name="snippet"
             placeholder="Your snippet"
-            // onChange={this.props.onInput}
             onKeyDown={ this.props.onSnippetInputKeydown }
             autoComplete="off"
             autoCorrect="off"

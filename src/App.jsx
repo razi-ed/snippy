@@ -9,7 +9,7 @@ import Code from "./components/code";
 class App extends React.Component {
 
   state = {
-    mode: "vscode",
+    mode: "",
     description: "",
     tabTrigger: "",
     snippet: ""
@@ -22,15 +22,24 @@ class App extends React.Component {
         mode, description, tabTrigger, snippet
       } = QueryString.parse( query.replace( "?", "" ) );
       if ( mode || description || tabTrigger || snippet ) {
-        this.setState( {  mode, description, tabTrigger, snippet } )
+        this.setState( { mode , description, tabTrigger, snippet } );
       }
+    } else {
+      const mode = "vscode";
+      this.setState( { mode }, this._updateURL )
     }
   }
 
   _updateURL = () => {
     const query = window.location.search;
-    const queryObject = QueryString.parse( query );
-    const newQuery = QueryString.stringify({ ...queryObject, ...this.state })
+    let queryObject = { ...QueryString.parse( query ), ...this.state };
+    queryObject = Object.keys( queryObject ).reduce( ( acc, ele ) => {
+      if ( queryObject[ ele ] ) {
+        acc[ ele ] = queryObject[ ele ];
+      }
+      return acc;
+    }, {} )
+    const newQuery = QueryString.stringify( { ...queryObject  } )
     history.pushState( newQuery, document.title,`${location.pathname}?${newQuery}` );
   }
 

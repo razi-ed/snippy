@@ -17,7 +17,7 @@ export default class Code extends PureComponent {
   }
 
   _getCode = ( mode, snippet, tabtrigger, description ) => {
-    
+
     switch (mode) {
       case "atom":
         return html`
@@ -31,7 +31,6 @@ export default class Code extends PureComponent {
       case "sublimetext":
           const regEx = /(\$)([a-z(]+)([^$])/gi;
           const cleanedSnippet = snippet.replace(regEx, "\\$1$2$3");
-          // prettier-ignore
           return html`
             <snippet>
               <content><![CDATA[
@@ -51,12 +50,9 @@ export default class Code extends PureComponent {
           .replace(/"/g, '\\"')
           .split("\n");
         const separatedSnippetLength = separatedSnippet.length;
-
-        // add double quotes around each line apart from the last one
         const newSnippet = separatedSnippet.map((line, index) => {
           return index === separatedSnippetLength - 1 ? `"${line}"` : `"${line}",`;
         });
-        // prettier-ignore
         return html`
           "${description}": {
             "prefix": "${tabtrigger}",
@@ -78,19 +74,19 @@ export default class Code extends PureComponent {
           >
           <button
             className={ `action ${ this.props.mode === "vscode" ? "action-active" : "" }` }
-            onClick={() => this.props.updateMode("vscode")}
+            onClick={ () => this.props.updateMode("vscode") }
           >
             VSCode
           </button>
           <button
             className={ `action ${ this.props.mode === "sublimetext" ? "action-active" : "" }` }
-            onClick={() => this.props.updateMode("sublimetext")}
+            onClick={ () => this.props.updateMode("sublimetext") }
           >
             Sublime Text
           </button>
           <button
             className={ `action ${ this.props.mode === "atom" ? "action-active" : "" }` }
-            onClick={() => this.props.updateMode("atom")}
+            onClick={ () => this.props.updateMode("atom") }
           >
             Atom
           </button>
@@ -105,8 +101,7 @@ export default class Code extends PureComponent {
               onClick={ () => {
                 this.props.copyToClipboard(
                   this._getCode( this.props.mode, this.props.snippet, this.props.tabTrigger, this.props.description )
-                )
-              }
+                ) }
               }
               >
               Copy
