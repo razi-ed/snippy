@@ -21,7 +21,6 @@ class App extends React.Component {
       const {
         mode, description, tabTrigger, snippet
       } = QueryString.parse( query.replace( "?", "" ) );
-      console.log({  mode, description, tabTrigger, snippet })
       if ( mode || description || tabTrigger || snippet ) {
         this.setState( {  mode, description, tabTrigger, snippet } )
       }
