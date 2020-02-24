@@ -1,15 +1,20 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 
-export default class Snippet extends Component {
+export default class Snippet extends PureComponent {
   static propTypes = {
-    prop: PropTypes
+    textareaRef: PropTypes.any.isRequired,
+    onInputChange: PropTypes.func.isRequired,
+    onSnippetInputKeydown: PropTypes.func.isRequired,
+    snippet: PropTypes.string,
+    description: PropTypes.string,
+    tabTrigger: PropTypes.string,
   }
 
-  componentDidMount() {
-    if (!!this.props.loadTextareaRef) {
-      this.props.loadTextareaRef( this._textareaRef );
-    }
+  static defaultProps = {
+    snippet: "",
+    description: "",
+    tabTrigger: "",
   }
 
   render() {
@@ -27,6 +32,7 @@ export default class Snippet extends Component {
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
+            defaultValue={ this.props.description }
             />
           <input
             type="text"
@@ -38,11 +44,12 @@ export default class Snippet extends Component {
             autoCorrect="off"
             autoCapitalize="off"
             spellCheck="false"
+            defaultValue={ this.props.tabTrigger }
             />
         </div>
         <div className="section-major">
           <textarea
-            ref={ r => { this._textareaRef = r } }
+            ref={ this.props.textareaRef }
             className="section-major fill_container"
             name="snippet"
             placeholder="Your snippet"
@@ -53,6 +60,7 @@ export default class Snippet extends Component {
             autoCapitalize="off"
             spellCheck="false"
             wrap="off"
+            defaultValue={ this.props.snippet }
           />
         </div>
       </div>

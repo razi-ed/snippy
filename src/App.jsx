@@ -1,5 +1,6 @@
 import React from "react";
 import { hot } from 'react-hot-loader/root';
+import QueryString from 'query-string'
 
 import './styles.css'
 import Snippet from "./components/snippet";
@@ -13,6 +14,26 @@ class App extends React.Component {
     tabTrigger: "",
     snippet: ""
   };
+
+  componentDidMount() {
+    const query = window.location.search;
+    if ( query ) {
+      const {
+        mode, description, tabTrigger, snippet
+      } = QueryString.parse( query.replace( "?", "" ) );
+      console.log({  mode, description, tabTrigger, snippet })
+      if ( mode || description || tabTrigger || snippet ) {
+        this.setState( {  mode, description, tabTrigger, snippet } )
+      }
+    }
+  }
+
+  _updateURL = () => {
+    const query = window.location.search;
+    const queryObject = QueryString.parse( query );
+    const newQuery = QueryString.stringify({ ...queryObject, ...this.state })
+    history.pushState( newQuery, document.title,`${location.pathname}?${newQuery}` );
+  }
 
   _onModeChange = mode => {
     this.setState({mode});
@@ -35,7 +56,8 @@ class App extends React.Component {
     this.setState(
       {
         [name]: value
-      }
+      },
+      this._updateURL
     );
   }
 
@@ -66,9 +88,7 @@ class App extends React.Component {
     this._textareaRef.current.selectionEnd = selectionStart + 11;
   }
 
-  _loadTextareaRef = ( ref ) => {
-    this._textareaRef = ref;
-  }
+  _textareaRef = React.createRef();
 
   _copyToClipboard = ( text ) => {
     if ( !navigator.clipboard ) {
@@ -86,30 +106,39 @@ class App extends React.Component {
   }
 
   render() {
+
     return (
-      <div className="container">
-        <h3 className="btm-padding" style={ { color: '#7a7a7a' } }>
-          Snippet Generator
-        </h3>
-        <div className="row-flex">
-          <div className="section-half">
-            <Snippet
-              onInputChange={ this._onInputChange }
-              onSnippetInputKeydown={ this._onSnippetInputKeydown }
-              />
-          </div>
-          <div className="section-half">
-            <Code
-              updateMode={ this._onModeChange }
-              mode={ this.state.mode }
-              description={ this.state.description }
-              snippet={ this.state.snippet }
-              tabTrigger={ this.state.tabTrigger }
-              copyToClipboard={ this._copyToClipboard }
-              />
+      <React.StrictMode>
+
+        <div className="container">
+          <h3 className="btm-padding" style={ { color: '#7a7a7a' } }>
+            Snippet Generator
+          </h3>
+          <div className="row-flex">
+            <div className="section-half">
+              <Snippet
+                textareaRef={ this._textareaRef }
+                onInputChange={ this._onInputChange }
+                onSnippetInputKeydown={ this._onSnippetInputKeydown }
+                description={ this.state.description }
+                snippet={ this.state.snippet }
+                tabTrigger={ this.state.tabTrigger }
+                />
+            </div>
+            <div className="section-half">
+              <Code
+                updateMode={ this._onModeChange }
+                mode={ this.state.mode }
+                description={ this.state.description }
+                snippet={ this.state.snippet }
+                tabTrigger={ this.state.tabTrigger }
+                copyToClipboard={ this._copyToClipboard }
+                />
+            </div>
           </div>
         </div>
-      </div>
+
+      </React.StrictMode>
     )
   }
 }

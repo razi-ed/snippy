@@ -1,14 +1,19 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { html } from "common-tags";
 
-export default class Code extends Component {
+export default class Code extends PureComponent {
   static propTypes = {
-    prop: PropTypes
+    mode: PropTypes.string,
+    snippet: PropTypes.string,
+    description: PropTypes.string,
+    tabTrigger: PropTypes.string,
   }
 
-  state={
-    showMessage: false
+  static defaultProps = {
+    snippet: "",
+    description: "",
+    tabTrigger: "",
   }
 
   _getCode = ( mode, snippet, tabtrigger, description ) => {
